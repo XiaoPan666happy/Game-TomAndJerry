@@ -21,13 +21,6 @@ class Cat {
             this->y = y;
         }
 
-        void draw(HANDLE hConsole){
-            DWORD charsWritten;
-            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
-            SetConsoleCursorPosition(hConsole, {static_cast<short>(x*2), y});
-            WriteConsoleW(hConsole, L"猫", 1, &charsWritten, NULL);
-        }
-
         void up(short map[WIDTH][HEIGHT]){
             if (y > 0 && map[x][y-1] != MAP_WALL) {
                 y--;

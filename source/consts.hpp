@@ -9,6 +9,8 @@ constexpr short HEIGHT = 9*3;
 constexpr short MAP_WALL = 1;
 constexpr short MAP_HOME = 2;
 constexpr short MAP_FOOD = 3;
+constexpr short MAP_PLAYER = 4;
+constexpr short MAP_ENEMY = 5;
 
 constexpr wchar_t* TEXT0 = L"确认请按回车";
 constexpr wchar_t* TEXT1 = L"请确认上面这个框能正常在您的屏幕中显示";

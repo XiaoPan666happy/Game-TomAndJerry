@@ -68,9 +68,7 @@ int main() {
     Player player(home_x, home_y);
     Cat cat(rand_x(gen), rand_y(gen));
 
-    draw_map(hConsole, map);
-    player.draw(hConsole);
-    cat.draw(hConsole);
+    short screen[WIDTH][HEIGHT] = {0};
 
     bool is_get_food = false;
     while (true) {
@@ -111,9 +109,10 @@ int main() {
             break;
         }
 
-        draw_map(hConsole, map);
-        player.draw(hConsole);
-        cat.draw(hConsole);
+        memcpy(screen, map, sizeof(map));
+        screen[player.x][player.y] = MAP_PLAYER;
+        screen[cat.x][cat.y] = MAP_ENEMY;
+        draw_screen(hConsole, screen);
     }
 
 
