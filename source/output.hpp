@@ -47,6 +47,12 @@ void draw_screen(HANDLE hConsole, short screen[WIDTH][HEIGHT]) {
             } else if (screen[x][y] == MAP_ENEMY) {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
                 WriteConsoleW(hConsole, L"猫", 1, &charsWritten, NULL);
+            } else if (screen[x][y] == MAP_AI) {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                WriteConsoleW(hConsole, L"智", 1, &charsWritten, NULL);
+            } else if (screen[x][y] == MAP_AIRODE) {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                WriteConsoleW(hConsole, L"路", 1, &charsWritten, NULL);
             } else {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
                 WriteConsoleW(hConsole, L"  ", 1, &charsWritten, NULL);

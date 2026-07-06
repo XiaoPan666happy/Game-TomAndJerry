@@ -23,18 +23,21 @@ class Player {
                 is_move = true;
             }
         }
+
         void down(short map[WIDTH][HEIGHT]){
             if (y < HEIGHT-1 && map[x][y+1] != MAP_WALL) {
                 y++;
                 is_move = true;
             }
         }
+
         void left(short map[WIDTH][HEIGHT]){
             if (x > 0 && map[x-1][y] != MAP_WALL) {
                 x--;
                 is_move = true;
             }
         }
+
         void right(short map[WIDTH][HEIGHT]){
             if (x < WIDTH-1 && map[x+1][y] != MAP_WALL) {
                 x++;
