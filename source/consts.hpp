@@ -21,11 +21,3 @@ constexpr wchar_t* TEXT3 = L"玩家吃到了食物";
 constexpr wchar_t* TEXT4 = L"玩家回到了家里 游戏结束 玩家获胜";
 constexpr wchar_t* TEXT5 = L"猫抓住了玩家 游戏结束 玩家失败";
 constexpr wchar_t* TEXT6 = L"玩家拾取了智能寻路系统";
-
-struct Pos {
-    short x;
-    short y;
-    Pos* parent;
-
-    Pos(short x, short y, Pos* parent_ = nullptr) : x(x), y(y), parent(parent_) {}
-};

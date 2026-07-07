@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include "consts.hpp"
+#include "structs.hpp"
 
 std::vector<Pos> bfs(short map[WIDTH][HEIGHT], Pos start, Pos target) {
     std::vector<Pos> path;

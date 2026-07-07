@@ -10,6 +10,7 @@
 #include "input.hpp"
 #include "player.hpp"
 #include "cat.hpp"
+#include "structs.hpp"
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
@@ -77,8 +78,7 @@ int main() {
     bool is_get_ai = false;
     std::vector<Pos> ai_path;
     while (true) {
-        player.is_move = false;
-        
+        // 获取食物
         if (player.x == food_x && player.y == food_y) {
             is_get_food = true;
             SetConsoleCursorPosition(hConsole, {0, HEIGHT});
@@ -86,6 +86,7 @@ int main() {
             WriteConsoleW(hConsole, TEXT3, wcslen(TEXT3), &charsWritten, NULL);
         }
 
+        // 回家
         if (is_get_food && player.x == home_x && player.y == home_y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
             SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT4))/2), HEIGHT/2});
@@ -93,6 +94,7 @@ int main() {
             break;
         }
 
+        // 死
         if (player.x == cat.x && player.y == cat.y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT5))/2), HEIGHT/2});
@@ -100,16 +102,21 @@ int main() {
             break;
         }
 
+        // 获取寻路
         if (player.x == ai_x && player.y == ai_y) {
             is_get_ai = true;
-            map[ai_x][ai_y] = MAP_AIRODE;
+            map[ai_x][ai_y] = 0;
             SetConsoleCursorPosition(hConsole, {0, HEIGHT});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT6, wcslen(TEXT6), &charsWritten, NULL);
         }
 
         if (is_get_ai) {
-            ai_path = bfs(map, Pos(player.x, player.y), Pos(food_x, food_y));
+            if (is_get_food) {
+                ai_path = bfs(map, Pos(player.x, player.y), Pos(home_x, home_y));
+            } else {
+                ai_path = bfs(map, Pos(player.x, player.y), Pos(food_x, food_y));
+            }
         }
 
         if (GetAsyncKeyState(VK_UP) & 0x8000) {
@@ -127,11 +134,11 @@ int main() {
         cat.move_towards(map, Pos(player.x, player.y));
 
         memcpy(screen, map, sizeof(map));
-        screen[player.x][player.y] = MAP_PLAYER;
-        screen[cat.x][cat.y] = MAP_ENEMY;
         for (int i=0;i<ai_path.size();i++) {
             screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
         }
+        screen[player.x][player.y] = MAP_PLAYER;
+        screen[cat.x][cat.y] = MAP_ENEMY;
         draw_screen(hConsole, screen);
     }
 
