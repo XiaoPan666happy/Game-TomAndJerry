@@ -88,7 +88,7 @@ int main() {
 
         // 回家
         if (is_get_food && player.x == home_x && player.y == home_y) {
-            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT4))/2), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT4, wcslen(TEXT4), &charsWritten, NULL);
             break;
@@ -134,7 +134,7 @@ int main() {
         cat.move_towards(map, Pos(player.x, player.y));
 
         memcpy(screen, map, sizeof(map));
-        for (int i=0;i<ai_path.size();i++) {
+        for (int i=0;i<ai_path.size()-1;i++) {
             screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
         }
         screen[player.x][player.y] = MAP_PLAYER;
