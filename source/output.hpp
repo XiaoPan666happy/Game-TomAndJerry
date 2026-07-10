@@ -31,7 +31,7 @@ void draw_screen(HANDLE hConsole, short screen[WIDTH][HEIGHT]) {
     DWORD charsWritten;
     for (short x=0;x<WIDTH;x++) {
         for (short y=0;y<HEIGHT;y++) {
-            SetConsoleCursorPosition(hConsole, {static_cast<short>(x*2), static_cast<short>(y)});
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(x*2), static_cast<short>(y)});
             if (screen[x][y] == MAP_WALL) {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
                 WriteConsoleW(hConsole, L"墙", 1, &charsWritten, NULL);

@@ -48,9 +48,12 @@ class Cat {
 
         void move_towards(short map[WIDTH][HEIGHT], Pos target){
             if (index == 0) {
-                std::vector<Pos> path = bfs(map, Pos(x, y), target);
-                short next_x = path[0].x;
-                short next_y = path[0].y;
+                std::vector<Pos> path = bfs(map, Pos{x, y}, target);
+                if (path.size() <= 1) {
+                    return ;
+                }
+                short next_x = path[1].x;
+                short next_y = path[1].y;
                 if (next_x < x) {
                     left(map);
                 } else if (next_x > x) {

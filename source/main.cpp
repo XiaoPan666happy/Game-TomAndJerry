@@ -24,25 +24,25 @@ int main() {
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
     draw_rect(hConsole);
-    SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+    SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     WriteConsoleW(hConsole, TEXT1, wcslen(TEXT1), &charsWritten, NULL);
     WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
     WriteConsoleW(hConsole, TEXT0, wcslen(TEXT0), &charsWritten, NULL);
     wait_key(VK_RETURN);
-    SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+    SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
     for (int i=0;i<(wcslen(TEXT1)+wcslen(TEXT0))*2;i++) {
         WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
     }
 
     Sleep(200);
-    SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT2)-wcslen(TEXT0))/2), HEIGHT/2});
+    SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT2)-wcslen(TEXT0))/2), HEIGHT/2});
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     WriteConsoleW(hConsole, TEXT2, wcslen(TEXT2), &charsWritten, NULL);
     WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
     WriteConsoleW(hConsole, TEXT0, wcslen(TEXT0), &charsWritten, NULL);
     wait_key(VK_RETURN);
-    SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+    SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
 
     short map[WIDTH][HEIGHT] = {0};
     std::random_device rd;
@@ -81,7 +81,8 @@ int main() {
         // 获取食物
         if (player.x == food_x && player.y == food_y) {
             is_get_food = true;
-            SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+            map[food_x][food_y] = 0;
+            SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT3, wcslen(TEXT3), &charsWritten, NULL);
         }
@@ -89,7 +90,7 @@ int main() {
         // 回家
         if (is_get_food && player.x == home_x && player.y == home_y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-            SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT4))/2), HEIGHT/2});
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT4))/2), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT4, wcslen(TEXT4), &charsWritten, NULL);
             break;
         }
@@ -97,7 +98,7 @@ int main() {
         // 死
         if (player.x == cat.x && player.y == cat.y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-            SetConsoleCursorPosition(hConsole, {static_cast<short>((WIDTH-wcslen(TEXT5))/2), HEIGHT/2});
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT5))/2), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT5, wcslen(TEXT5), &charsWritten, NULL);
             break;
         }
@@ -106,16 +107,16 @@ int main() {
         if (player.x == ai_x && player.y == ai_y) {
             is_get_ai = true;
             map[ai_x][ai_y] = 0;
-            SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+            SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT6, wcslen(TEXT6), &charsWritten, NULL);
         }
 
         if (is_get_ai) {
             if (is_get_food) {
-                ai_path = bfs(map, Pos(player.x, player.y), Pos(home_x, home_y));
+                ai_path = bfs(map, Pos{player.x, player.y}, Pos{home_x, home_y});
             } else {
-                ai_path = bfs(map, Pos(player.x, player.y), Pos(food_x, food_y));
+                ai_path = bfs(map, Pos{player.x, player.y}, Pos{food_x, food_y});
             }
         }
 
@@ -131,10 +132,10 @@ int main() {
         if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
             player.right(map);
         }
-        cat.move_towards(map, Pos(player.x, player.y));
+        cat.move_towards(map, Pos{player.x, player.y});
 
         memcpy(screen, map, sizeof(map));
-        for (int i=0;i<ai_path.size()-1;i++) {
+        for (int i=1;i<(short)ai_path.size()-1;i++) {
             screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
         }
         screen[player.x][player.y] = MAP_PLAYER;
@@ -144,7 +145,7 @@ int main() {
 
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-    SetConsoleCursorPosition(hConsole, {0, HEIGHT});
+    SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
     cursor_info = {1, 1};
     SetConsoleCursorInfo(hConsole, &cursor_info);
 }
