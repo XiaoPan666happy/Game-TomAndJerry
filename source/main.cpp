@@ -90,7 +90,7 @@ int main() {
         // 回家
         if (is_get_food && player.x == home_x && player.y == home_y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT4))/2), HEIGHT/2});
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT4)), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT4, wcslen(TEXT4), &charsWritten, NULL);
             break;
         }
@@ -98,7 +98,7 @@ int main() {
         // 死
         if (player.x == cat.x && player.y == cat.y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT5))/2), HEIGHT/2});
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT5)), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT5, wcslen(TEXT5), &charsWritten, NULL);
             break;
         }
