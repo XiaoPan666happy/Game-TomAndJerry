@@ -6,6 +6,8 @@
 constexpr short WIDTH = 16*3;
 constexpr short HEIGHT = 9*3;
 
+constexpr short TICK_TIME = 100; // ms
+
 constexpr short MAP_WALL = 1;
 constexpr short MAP_HOME = 2;
 constexpr short MAP_FOOD = 3;
