@@ -3,7 +3,6 @@
 
 #include <random>
 #include <vector>
-#include <chrono>
 #include <thread>
 #include <windows.h>
 #include <wincon.h>
@@ -80,13 +79,7 @@ int main() {
     bool is_get_ai = false;
     std::vector<Pos> ai_path;
 
-    std::chrono::steady_clock::time_point tick_start_time;
-    std::chrono::steady_clock::time_point tick_end_time;
-    std::chrono::steady_clock::duration tick_spend_time;
-
     while (true) {
-        tick_start_time = std::chrono::steady_clock::now();
-
         // 获取食物
         if (player.x == food_x && player.y == food_y) {
             is_get_food = true;
@@ -150,13 +143,6 @@ int main() {
         screen[player.x][player.y] = MAP_PLAYER;
         screen[cat.x][cat.y] = MAP_ENEMY;
         draw_screen(hConsole, screen);
-
-        tick_end_time = std::chrono::steady_clock::now();
-
-        tick_spend_time = tick_end_time - tick_start_time;
-        if (tick_spend_time < std::chrono::milliseconds(TICK_TIME)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(TICK_TIME) - tick_spend_time);
-        }
     }
 
 

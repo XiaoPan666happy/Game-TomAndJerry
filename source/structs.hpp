@@ -7,3 +7,4 @@ struct Pos {
     short x;
     short y;
 };
+ 

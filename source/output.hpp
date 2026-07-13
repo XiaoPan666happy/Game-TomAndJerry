@@ -20,7 +20,7 @@ void draw_rect(HANDLE hConsole) {
                 WriteConsoleW(hConsole, L"右", 1, &charsWritten, NULL);
             } else if (y == 0) {
                 WriteConsoleW(hConsole, L"上", 1, &charsWritten, NULL);
-            } else if (y == HEIGHT-1){
+            } else if (y == HEIGHT-1) {
                 WriteConsoleW(hConsole, L"下", 1, &charsWritten, NULL);
             }
         }

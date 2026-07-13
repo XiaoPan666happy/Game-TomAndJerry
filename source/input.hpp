@@ -7,6 +7,6 @@
 #include <wincon.h>
 #include "consts.hpp"
 
-void wait_key(int vKey){
+void wait_key(int vKey) {
     while (!(GetAsyncKeyState(vKey) & 0x8000)){}
 }

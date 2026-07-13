@@ -6,6 +6,7 @@
 #pragma once
 
 #include <vector>
+#include <chrono>
 #include <windows.h>
 #include <wincon.h>
 #include "consts.hpp"
@@ -15,39 +16,43 @@
 class Cat {
     public:
         short x, y;
-        short index = 0;
+        std::chrono::steady_clock::time_point last_move_time;
+        std::chrono::steady_clock::time_point now_time;
 
-        Cat(short x, short y){
+        Cat(short x, short y) {
             this->x = x;
             this->y = y;
+            this->last_move_time = std::chrono::steady_clock::now();
+            this->now_time = std::chrono::steady_clock::now();
         }
 
-        void up(short map[WIDTH][HEIGHT]){
+        void up(short map[WIDTH][HEIGHT]) {
             if (y > 0 && map[x][y-1] != MAP_WALL) {
                 y--;
             }
         }
 
-        void down(short map[WIDTH][HEIGHT]){
+        void down(short map[WIDTH][HEIGHT]) {
             if (y < HEIGHT-1 && map[x][y+1] != MAP_WALL) {
                 y++;
             }
         }
 
-        void left(short map[WIDTH][HEIGHT]){
+        void left(short map[WIDTH][HEIGHT]) {
             if (x > 0 && map[x-1][y] != MAP_WALL) {
                 x--;
             }
         }
 
-        void right(short map[WIDTH][HEIGHT]){
+        void right(short map[WIDTH][HEIGHT]) {
             if (x < WIDTH-1 && map[x+1][y] != MAP_WALL) {
                 x++;
             }
         }
 
-        void move_towards(short map[WIDTH][HEIGHT], Pos target){
-            if (index == 0) {
+        void move_towards(short map[WIDTH][HEIGHT], Pos target) {
+            now_time = std::chrono::steady_clock::now();
+            if (now_time - last_move_time >= std::chrono::milliseconds(TICK_TIME * 3)) {
                 std::vector<Pos> path = bfs(map, Pos{x, y}, target);
                 if (path.size() <= 1) {
                     return ;
@@ -63,9 +68,8 @@ class Cat {
                 } else if (next_y > y) {
                     down(map);
                 }
+                last_move_time = std::chrono::steady_clock::now();
             }
-            index++;
-            index %= 3;
         }
 };
 
