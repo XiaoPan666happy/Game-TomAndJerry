@@ -4,6 +4,7 @@
 #include <random>
 #include <vector>
 #include <thread>
+#include <array>
 #include <windows.h>
 #include <wincon.h>
 #include "consts.hpp"
@@ -63,12 +64,24 @@ int main() {
     short food_x = rand_x(gen);
     short food_y = rand_y(gen);
     map[food_x][food_y] = MAP_FOOD;
+
     short home_x = rand_x(gen);
     short home_y = rand_y(gen);
     map[home_x][home_y] = MAP_HOME;
+
     short ai_x = rand_x(gen);
     short ai_y = rand_y(gen);
     map[ai_x][ai_y] = MAP_AI;
+
+    std::uniform_int_distribution<short> rand_mouse_hole_index(0, NUM_OF_MOUSE_HOLE);
+    std::array<Pos, NUM_OF_MOUSE_HOLE> mouse_holes_pos;
+    Pos temp_hole_pos;
+    for (int i = 0; i < NUM_OF_MOUSE_HOLE; i++) {
+        temp_hole_pos.x = rand_x(gen);
+        temp_hole_pos.y = rand_y(gen);
+        mouse_holes_pos[i] = temp_hole_pos;
+        map[temp_hole_pos.x][temp_hole_pos.y] = MAP_MOUSE_HOLE;
+    }
 
     Player player(home_x, home_y);
     Cat cat(rand_x(gen), rand_y(gen));
@@ -78,6 +91,8 @@ int main() {
     bool is_get_food = false;
     bool is_get_ai = false;
     std::vector<Pos> ai_path;
+
+    short last_hole_index = -1;
 
     while (true) {
         // 获取食物
@@ -112,6 +127,16 @@ int main() {
             SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT6, wcslen(TEXT6), &charsWritten, NULL);
+        }
+
+        // 老鼠洞
+        for (Pos temp_hole_pos : mouse_holes_pos) {
+            if (GetAsyncKeyState('F') & 0x8000 &&
+                 temp_hole_pos.x == player.x && temp_hole_pos.y == player.y) {
+                last_hole_index = rand_mouse_hole_index(gen);
+                player.x = mouse_holes_pos[last_hole_index].x;
+                player.y = mouse_holes_pos[last_hole_index].y;
+            }
         }
 
         if (is_get_ai) {

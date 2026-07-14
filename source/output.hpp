@@ -53,6 +53,9 @@ void draw_screen(HANDLE hConsole, short screen[WIDTH][HEIGHT]) {
             } else if (screen[x][y] == MAP_AIRODE) {
                 SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
                 WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+            } else if (screen[x][y] == MAP_MOUSE_HOLE){
+                SetConsoleTextAttribute(hConsole, BACKGROUND_RED);
+                WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
             } else {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
                 WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);

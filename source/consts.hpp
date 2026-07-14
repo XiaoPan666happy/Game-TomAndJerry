@@ -15,6 +15,9 @@ constexpr short MAP_PLAYER = 4;
 constexpr short MAP_ENEMY = 5;
 constexpr short MAP_AI = 6;
 constexpr short MAP_AIRODE = 7;
+constexpr short MAP_MOUSE_HOLE = 8;
+
+constexpr short NUM_OF_MOUSE_HOLE = 10;
 
 constexpr wchar_t* TEXT0 = L"确认请按回车";
 constexpr wchar_t* TEXT1 = L"请确认上面这个框能正常在您的屏幕中显示";

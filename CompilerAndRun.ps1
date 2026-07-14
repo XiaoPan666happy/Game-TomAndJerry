@@ -7,7 +7,7 @@ $compiler = "g++.exe"
 $flags = @("-Wall",
            "-g",
            "-O2",
-           "-std=c++17",
+           "-std=c++20",
            "-finput-charset=UTF-8",
            "-static",
            "-static-libgcc",
