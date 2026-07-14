@@ -90,18 +90,20 @@ int main() {
 
     bool is_get_food = false;
     bool is_get_ai = false;
+    short msg_count = 0;
     std::vector<Pos> ai_path;
 
     short last_hole_index = -1;
 
     while (true) {
         // 获取食物
-        if (player.x == food_x && player.y == food_y) {
+        if (player.x == food_x && player.y == food_y && map[food_x][food_y] == MAP_FOOD) {
             is_get_food = true;
             map[food_x][food_y] = 0;
-            SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
+            SetConsoleCursorPosition(hConsole, COORD{0, static_cast<short>(HEIGHT+msg_count)});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT3, wcslen(TEXT3), &charsWritten, NULL);
+            msg_count++;
         }
 
         // 回家
@@ -121,12 +123,13 @@ int main() {
         }
 
         // 获取寻路
-        if (player.x == ai_x && player.y == ai_y) {
+        if (player.x == ai_x && player.y == ai_y && map[ai_x][ai_y] == MAP_AI) {
             is_get_ai = true;
             map[ai_x][ai_y] = 0;
-            SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
+            SetConsoleCursorPosition(hConsole, COORD{0, static_cast<short>(HEIGHT+msg_count)});
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT6, wcslen(TEXT6), &charsWritten, NULL);
+            msg_count++;
         }
 
         // 老鼠洞
