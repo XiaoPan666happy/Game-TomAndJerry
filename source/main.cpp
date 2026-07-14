@@ -73,7 +73,7 @@ int main() {
     short ai_y = rand_y(gen);
     map[ai_x][ai_y] = MAP_AI;
 
-    std::uniform_int_distribution<short> rand_mouse_hole_index(0, NUM_OF_MOUSE_HOLE);
+    std::uniform_int_distribution<short> rand_mouse_hole_index(0, NUM_OF_MOUSE_HOLE-1);
     std::array<Pos, NUM_OF_MOUSE_HOLE> mouse_holes_pos;
     Pos temp_hole_pos;
     for (int i = 0; i < NUM_OF_MOUSE_HOLE; i++) {
