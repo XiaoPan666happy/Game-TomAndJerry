@@ -5,6 +5,9 @@
 #include <vector>
 #include <thread>
 #include <array>
+#include <chrono>
+#include <sstream>
+#include <string>
 #include <windows.h>
 #include <wincon.h>
 #include "consts.hpp"
@@ -93,6 +96,9 @@ int main() {
     short msg_count = 0;
     std::vector<Pos> ai_path;
 
+    std::chrono::steady_clock::time_point game_start_time;
+    game_start_time = std::chrono::steady_clock::now();
+
     short last_hole_index = -1;
 
     while (true) {
@@ -109,8 +115,19 @@ int main() {
         // 回家
         if (is_get_food && player.x == home_x && player.y == home_y) {
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+
             SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT4)), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT4, wcslen(TEXT4), &charsWritten, NULL);
+
+            std::chrono::steady_clock::time_point game_end_time;
+            game_end_time = std::chrono::steady_clock::now();
+            unsigned long long use_time;
+            use_time = std::chrono::duration_cast<std::chrono::seconds>(game_end_time-game_start_time).count();
+            std::wstringstream msg_wss;
+            msg_wss << L"通关用时 " << use_time << L"秒";
+            std::wstring msg = msg_wss.str();
+            SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-msg.length()), HEIGHT/2+1});
+            WriteConsoleW(hConsole, msg.c_str(), msg.length(), &charsWritten, NULL);
             break;
         }
 
