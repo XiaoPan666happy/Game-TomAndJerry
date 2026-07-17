@@ -1,7 +1,5 @@
 // coding=utf-8
 // file: source/cat.hpp
-// coding=utf-8
-// file: source/player.hpp
 
 #pragma once
 
@@ -18,6 +16,7 @@ class Cat {
         short x, y;
         std::chrono::steady_clock::time_point last_move_time;
         std::chrono::steady_clock::time_point now_time;
+        std::vector<Pos> path;
 
         Cat(short x, short y) {
             this->x = x;
@@ -50,10 +49,9 @@ class Cat {
             }
         }
 
-        void move_towards(short map[WIDTH][HEIGHT], Pos target) {
+        void move_towards(short map[WIDTH][HEIGHT]) {
             now_time = std::chrono::steady_clock::now();
             if (now_time - last_move_time >= std::chrono::milliseconds(TICK_TIME * 3)) {
-                std::vector<Pos> path = bfs(map, Pos{x, y}, target);
                 if (path.size() <= 1) {
                     return ;
                 }

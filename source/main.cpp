@@ -8,6 +8,8 @@
 #include <chrono>
 #include <sstream>
 #include <string>
+#include <mutex>
+#include <functional>
 #include <windows.h>
 #include <wincon.h>
 #include "consts.hpp"
@@ -16,6 +18,7 @@
 #include "player.hpp"
 #include "cat.hpp"
 #include "structs.hpp"
+#include "bfs_thread.hpp"
 
 int main() {
     SetConsoleOutputCP(CP_UTF8);
@@ -92,7 +95,9 @@ int main() {
     short screen[WIDTH][HEIGHT] = {0};
 
     bool is_get_food = false;
+    bool is_not_get_food = true;
     bool is_get_ai = false;
+    bool is_game_over = false;
     short msg_count = 0;
     std::vector<Pos> ai_path;
 
@@ -100,8 +105,21 @@ int main() {
     game_start_time = std::chrono::steady_clock::now();
 
     short last_hole_index = -1;
+    
+    std::thread cat_bfs_thread(bfs_thread, 
+                               std::cref(is_game_over), 
+                               std::cref(cat.x), 
+                               std::cref(cat.y), 
+                               std::cref(player.x), 
+                               std::cref(player.y), 
+                               std::ref(map), 
+                               std::ref(cat.path));
 
-    while (true) {
+    cat_bfs_thread.detach();
+
+    while (!is_game_over) {
+        is_not_get_food = ! is_get_food;
+
         // 获取食物
         if (player.x == food_x && player.y == food_y && map[food_x][food_y] == MAP_FOOD) {
             is_get_food = true;
@@ -128,7 +146,8 @@ int main() {
             std::wstring msg = msg_wss.str();
             SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-msg.length()), HEIGHT/2+1});
             WriteConsoleW(hConsole, msg.c_str(), msg.length(), &charsWritten, NULL);
-            break;
+            
+            is_game_over = true;
         }
 
         // 死
@@ -136,7 +155,8 @@ int main() {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT5)), HEIGHT/2});
             WriteConsoleW(hConsole, TEXT5, wcslen(TEXT5), &charsWritten, NULL);
-            break;
+            
+            is_game_over = true;
         }
 
         // 获取寻路
@@ -179,7 +199,7 @@ int main() {
         if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
             player.right(map);
         }
-        cat.move_towards(map, Pos{player.x, player.y});
+        cat.move_towards(map);
 
         memcpy(screen, map, sizeof(map));
         for (int i=1;i<(short)ai_path.size()-1;i++) {
@@ -189,7 +209,6 @@ int main() {
         screen[cat.x][cat.y] = MAP_ENEMY;
         draw_screen(hConsole, screen);
     }
-
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});

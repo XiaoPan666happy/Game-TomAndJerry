@@ -1,6 +1,8 @@
 // coding=utf-8
 // file: source/bfs.hpp
 
+#pragma once
+
 #include <queue>
 #include <vector>
 #include <algorithm>

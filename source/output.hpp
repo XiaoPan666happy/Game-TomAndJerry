@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: source/draw_rect.hpp
+// file: source/output.hpp
 
 #pragma once
 
