@@ -148,6 +148,7 @@ int main() {
             WriteConsoleW(hConsole, msg.c_str(), msg.length(), &charsWritten, NULL);
             
             is_game_over = true;
+            break;
         }
 
         // 死
@@ -157,6 +158,7 @@ int main() {
             WriteConsoleW(hConsole, TEXT5, wcslen(TEXT5), &charsWritten, NULL);
             
             is_game_over = true;
+            break;
         }
 
         // 获取寻路
