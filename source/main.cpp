@@ -31,6 +31,11 @@ int main() {
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
+    if (!(GetAsyncKeyState(VK_CAPITAL) & 0x0001)) {
+        keybd_event(VK_CAPITAL, 0, 0, 0);
+        keybd_event(VK_CAPITAL, 0, KEYEVENTF_KEYUP, 0);
+    }
+
     draw_rect(hConsole);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
