@@ -91,8 +91,14 @@ int main() {
     std::array<Pos, NUM_OF_MOUSE_HOLE> mouse_holes_pos;
     Pos temp_hole_pos;
     for (int i = 0; i < NUM_OF_MOUSE_HOLE; i++) {
+        label_line94_creat_mouse_hole :
         temp_hole_pos.x = rand_x(gen);
         temp_hole_pos.y = rand_y(gen);
+        if ((temp_hole_pos.x == food_x && temp_hole_pos.y == food_y) ||
+             (temp_hole_pos.x == home_x && temp_hole_pos.y == home_y) ||
+             (temp_hole_pos.x == ai_x && temp_hole_pos.y == ai_x)) {
+            goto label_line94_creat_mouse_hole;
+        }
         mouse_holes_pos[i] = temp_hole_pos;
         map[temp_hole_pos.x][temp_hole_pos.y] = MAP_MOUSE_HOLE;
     }
