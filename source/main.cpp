@@ -31,8 +31,11 @@ int main() {
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
+    bool start_capital_is_not_on = false;
     if (!(GetAsyncKeyState(VK_CAPITAL) & 0x0001)) {
+        start_capital_is_not_on = true;
         keybd_event(VK_CAPITAL, 0, 0, 0);
+        Sleep(50);
         keybd_event(VK_CAPITAL, 0, KEYEVENTF_KEYUP, 0);
     }
 
@@ -215,6 +218,12 @@ int main() {
         screen[player.x][player.y] = MAP_PLAYER;
         screen[cat.x][cat.y] = MAP_ENEMY;
         draw_screen(hConsole, screen);
+    }
+
+    if (start_capital_is_not_on) {
+        keybd_event(VK_CAPITAL, 0, 0, 0);
+        Sleep(50);
+        keybd_event(VK_CAPITAL, 0, KEYEVENTF_KEYUP, 0);
     }
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
