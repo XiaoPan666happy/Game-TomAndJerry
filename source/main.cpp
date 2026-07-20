@@ -215,6 +215,9 @@ int main() {
         for (int i=1;i<(short)ai_path.size()-1;i++) {
             screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
         }
+        for (Pos temp_hole_pos : mouse_holes_pos) {
+            screen[temp_hole_pos.x][temp_hole_pos.y] = MAP_MOUSE_HOLE;
+        }
         screen[player.x][player.y] = MAP_PLAYER;
         screen[cat.x][cat.y] = MAP_ENEMY;
         draw_screen(hConsole, screen);
