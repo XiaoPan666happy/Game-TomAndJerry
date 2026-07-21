@@ -154,9 +154,9 @@ int main() {
             std::chrono::steady_clock::time_point game_end_time;
             game_end_time = std::chrono::steady_clock::now();
             unsigned long long use_time;
-            use_time = std::chrono::duration_cast<std::chrono::seconds>(game_end_time-game_start_time).count();
+            use_time = std::chrono::duration_cast<std::chrono::milliseconds>(game_end_time-game_start_time).count();
             std::wstringstream msg_wss;
-            msg_wss << L"通关用时 " << use_time << L"秒";
+            msg_wss << L"通关用时 " << use_time << L"毫秒";
             std::wstring msg = msg_wss.str();
             SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-msg.length()), HEIGHT/2+1});
             WriteConsoleW(hConsole, msg.c_str(), msg.length(), &charsWritten, NULL);
