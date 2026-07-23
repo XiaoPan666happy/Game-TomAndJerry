@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: source/main.cpp
+// file: client/source/main.cpp
 
 #include <random>
 #include <vector>

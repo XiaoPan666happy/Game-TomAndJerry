@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: source/player.hpp
+// file: client/source/player.hpp
 
 #pragma once
 

@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: bfs_thread.hpp
+// file: client/source/bfs_thread.hpp
 
 #pragma once
 

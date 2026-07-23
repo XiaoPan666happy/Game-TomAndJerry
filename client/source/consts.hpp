@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: source/consts.hpp
+// file: client/source/consts.hpp
 
 #pragma once
 

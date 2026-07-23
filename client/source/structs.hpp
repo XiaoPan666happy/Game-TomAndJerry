@@ -1,5 +1,5 @@
 // coding=utf-8
-// file: source/structs.hpp
+// file: client/source/structs.hpp
 
 #pragma once
 
