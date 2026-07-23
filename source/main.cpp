@@ -125,6 +125,7 @@ int main() {
     bool is_get_ai = false;
     bool is_game_over = false;
     short msg_count = 0;
+    Pos mouse_target{food_x, food_y};
     std::vector<Pos> ai_path;
 
     std::chrono::steady_clock::time_point game_start_time;
@@ -140,8 +141,17 @@ int main() {
                                std::cref(player.y), 
                                std::ref(map), 
                                std::ref(cat.path));
+    std::thread ai_bfs_thread(bfs_thread, 
+                              std::cref(is_game_over), 
+                              std::cref(player.x), 
+                              std::cref(player.y), 
+                              std::cref(mouse_target.x), 
+                              std::cref(mouse_target.y), 
+                              std::ref(map), 
+                              std::ref(ai_path));
 
     cat_bfs_thread.detach();
+    ai_bfs_thread.detach();
 
     while (!is_game_over) {
         is_not_get_food = ! is_get_food;
@@ -154,6 +164,7 @@ int main() {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             WriteConsoleW(hConsole, TEXT3, wcslen(TEXT3), &charsWritten, NULL);
             msg_count++;
+            mouse_target = Pos{home_x, home_y};
         }
 
         // 回家
@@ -207,14 +218,6 @@ int main() {
             }
         }
 
-        if (is_get_ai) {
-            if (is_get_food) {
-                ai_path = bfs(map, Pos{player.x, player.y}, Pos{home_x, home_y});
-            } else {
-                ai_path = bfs(map, Pos{player.x, player.y}, Pos{food_x, food_y});
-            }
-        }
-
         if (GetAsyncKeyState(VK_UP) & 0x8000) {
             player.up(map);
         }
@@ -230,8 +233,10 @@ int main() {
         cat.move_towards(map);
 
         memcpy(screen, map, sizeof(map));
-        for (int i=1;i<(short)ai_path.size()-1;i++) {
-            screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
+        if (is_get_ai) {
+            for (int i=1;i<(short)ai_path.size()-1;i++) {
+                screen[ai_path[i].x][ai_path[i].y] = MAP_AIRODE;
+            }
         }
         for (Pos temp_hole_pos : mouse_holes_pos) {
             screen[temp_hole_pos.x][temp_hole_pos.y] = MAP_MOUSE_HOLE;
