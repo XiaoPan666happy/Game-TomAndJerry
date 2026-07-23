@@ -27,6 +27,16 @@ void draw_rect(HANDLE hConsole) {
     }
 }
 
+void clear_screen(HANDLE hConsole) {
+    DWORD charsWritten;
+    for (short x=0;x<WIDTH;x++) {
+        for (short y=0;y<HEIGHT;y++) {
+            SetConsoleCursorPosition(hConsole, {static_cast<short>(x*2), static_cast<short>(y)});
+            WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+        }
+    }
+}
+
 void draw_screen(HANDLE hConsole, short screen[WIDTH][HEIGHT]) {
     DWORD charsWritten;
     for (short x=0;x<WIDTH;x++) {

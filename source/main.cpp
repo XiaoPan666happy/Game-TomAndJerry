@@ -35,27 +35,39 @@ int main() {
     if (!(GetAsyncKeyState(VK_CAPITAL) & 0x0001)) {
         start_capital_is_not_on = true;
         keybd_event(VK_CAPITAL, 0, 0, 0);
-        Sleep(50);
+        Sleep(100);
         keybd_event(VK_CAPITAL, 0, KEYEVENTF_KEYUP, 0);
     }
 
+    clear_screen(hConsole);
     draw_rect(hConsole);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
     WriteConsoleW(hConsole, TEXT1, wcslen(TEXT1), &charsWritten, NULL);
-    WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
+    WriteConsoleW(hConsole, L" ", 1, &charsWritten, NULL);
     WriteConsoleW(hConsole, TEXT0, wcslen(TEXT0), &charsWritten, NULL);
     wait_key(VK_RETURN);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
-    for (int i=0;i<(wcslen(TEXT1)+wcslen(TEXT0))*2;i++) {
-        WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
+    for (int i=0;i<(wcslen(TEXT1)+wcslen(TEXT0)+1);i++) {
+        WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
     }
+
+    Sleep(200);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT7)*2), HEIGHT/4});
+    WriteConsoleW(hConsole, TEXT7, wcslen(TEXT7), &charsWritten, NULL);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(WIDTH-wcslen(TEXT8)*2), HEIGHT/4*3});
+    WriteConsoleW(hConsole, TEXT8, wcslen(TEXT8), &charsWritten, NULL);
+    WriteConsoleW(hConsole, L" ", 1, &charsWritten, NULL);
+    WriteConsoleW(hConsole, TEXT0, wcslen(TEXT0), &charsWritten, NULL);
+    wait_key(VK_RETURN);
 
     Sleep(200);
     SetConsoleCursorPosition(hConsole, COORD{static_cast<short>((WIDTH-wcslen(TEXT2)-wcslen(TEXT0))/2), HEIGHT/2});
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     WriteConsoleW(hConsole, TEXT2, wcslen(TEXT2), &charsWritten, NULL);
-    WriteConsoleW(hConsole, " ", 1, &charsWritten, NULL);
+    WriteConsoleW(hConsole, L" ", 1, &charsWritten, NULL);
     WriteConsoleW(hConsole, TEXT0, wcslen(TEXT0), &charsWritten, NULL);
     wait_key(VK_RETURN);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
@@ -231,7 +243,7 @@ int main() {
 
     if (start_capital_is_not_on) {
         keybd_event(VK_CAPITAL, 0, 0, 0);
-        Sleep(50);
+        Sleep(100);
         keybd_event(VK_CAPITAL, 0, KEYEVENTF_KEYUP, 0);
     }
 
