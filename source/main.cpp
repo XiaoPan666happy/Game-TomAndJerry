@@ -212,7 +212,11 @@ int main() {
         for (Pos temp_hole_pos : mouse_holes_pos) {
             if (GetAsyncKeyState('F') & 0x8000 &&
                  temp_hole_pos.x == player.x && temp_hole_pos.y == player.y) {
+                label_line215_tp_random_mouse_hole :
                 last_hole_index = rand_mouse_hole_index(gen);
+                if (mouse_holes_pos[last_hole_index] == temp_hole_pos) {
+                    goto label_line215_tp_random_mouse_hole;
+                }
                 player.x = mouse_holes_pos[last_hole_index].x;
                 player.y = mouse_holes_pos[last_hole_index].y;
             }
