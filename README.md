@@ -27,3 +27,11 @@
 `CompilerAndRun.ps1` 为重新编译并运行
 
 `OnlyRun.ps1` 为运行上次编译生成的可执行文件
+
+## 贡献指南
+
+如果你想为这个项目做些什么请至 `Issues` 板块反馈
+
+## 鸣谢与致谢
+
+感谢 [龙腾猫跃](https://github.com/LTCatt)同志 PCL是世界上最好的Minecraft启动器!
