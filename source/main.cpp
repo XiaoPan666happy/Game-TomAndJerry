@@ -21,16 +21,19 @@
 #include "bfs_thread.hpp"
 
 int main() {
-    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8); // 设置控制台编码格式为utf-8
+    // 获取控制台窗口句柄
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD charsWritten;
     if (hConsole == INVALID_HANDLE_VALUE) return 1;
 
+    // 隐藏光标
     CONSOLE_CURSOR_INFO cursor_info = {1, 0};
     SetConsoleCursorInfo(hConsole, &cursor_info);
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
+    // 自动开启大写锁定
     bool start_capital_is_not_on = false;
     if (!(GetAsyncKeyState(VK_CAPITAL) & 0x0001)) {
         start_capital_is_not_on = true;
@@ -72,6 +75,7 @@ int main() {
     wait_key(VK_RETURN);
     SetConsoleCursorPosition(hConsole, COORD{0, HEIGHT});
 
+    // 生成地图
     short map[WIDTH][HEIGHT] = {0};
     std::random_device rd;
     std::mt19937 gen(rd());

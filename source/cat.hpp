@@ -49,6 +49,7 @@ class Cat {
             }
         }
 
+        // 根据bfs自动移动
         void move_towards(short map[WIDTH][HEIGHT]) {
             now_time = std::chrono::steady_clock::now();
             if (now_time - last_move_time >= std::chrono::milliseconds(TICK_TIME * 3)) {
