@@ -7,6 +7,16 @@
 #include <wincon.h>
 #include "consts.hpp"
 
+void draw_wall(HANDLE);
+void draw_home(HANDLE);
+void draw_food(HANDLE);
+void draw_player(HANDLE);
+void draw_cat(HANDLE);
+void draw_ai(HANDLE);
+void draw_airode(HANDLE);
+void draw_mouse_hole(HANDLE);
+void draw_empty(HANDLE);
+
 void draw_rect(HANDLE hConsole) {
     DWORD charsWritten;
     for (short x=0;x<WIDTH;x++) {
@@ -32,7 +42,7 @@ void clear_screen(HANDLE hConsole) {
     for (short x=0;x<WIDTH;x++) {
         for (short y=0;y<HEIGHT;y++) {
             SetConsoleCursorPosition(hConsole, {static_cast<short>(x*2), static_cast<short>(y)});
-            WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+            draw_empty(hConsole);
         }
     }
 }
@@ -43,33 +53,78 @@ void draw_screen(HANDLE hConsole, short screen[WIDTH][HEIGHT]) {
         for (short y=0;y<HEIGHT;y++) {
             SetConsoleCursorPosition(hConsole, COORD{static_cast<short>(x*2), static_cast<short>(y)});
             if (screen[x][y] == MAP_WALL) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
-                WriteConsoleW(hConsole, L"墙", 1, &charsWritten, NULL);
+                draw_wall(hConsole);
             } else if (screen[x][y] == MAP_HOME) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
-                WriteConsoleW(hConsole, L"家", 1, &charsWritten, NULL);
+                draw_home(hConsole);
             } else if (screen[x][y] == MAP_FOOD) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
-                WriteConsoleW(hConsole, L"食", 1, &charsWritten, NULL);
+                draw_food(hConsole);
             } else if (screen[x][y] == MAP_PLAYER) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-                WriteConsoleW(hConsole, L"鼠", 1, &charsWritten, NULL);
+                draw_player(hConsole);
             } else if (screen[x][y] == MAP_ENEMY) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
-                WriteConsoleW(hConsole, L"猫", 1, &charsWritten, NULL);
+                draw_cat(hConsole);
             } else if (screen[x][y] == MAP_AI) {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-                WriteConsoleW(hConsole, L"智", 1, &charsWritten, NULL);
+                draw_ai(hConsole);
             } else if (screen[x][y] == MAP_AIRODE) {
-                SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
-                WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+                draw_airode(hConsole);
             } else if (screen[x][y] == MAP_MOUSE_HOLE){
-                SetConsoleTextAttribute(hConsole, BACKGROUND_RED);
-                WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+                draw_mouse_hole(hConsole);
             } else {
-                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-                WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+                draw_empty(hConsole);
             }
         }
     }
+}
+
+void draw_wall(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+    WriteConsoleW(hConsole, L"墙", 1, &charsWritten, NULL);
+}
+
+void draw_home(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE);
+    WriteConsoleW(hConsole, L"家", 1, &charsWritten, NULL);
+}
+
+void draw_food(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN);
+    WriteConsoleW(hConsole, L"食", 1, &charsWritten, NULL);
+}
+
+void draw_player(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    WriteConsoleW(hConsole, L"鼠", 1, &charsWritten, NULL);
+}
+
+void draw_cat(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+    WriteConsoleW(hConsole, L"猫", 1, &charsWritten, NULL);
+}
+
+void draw_ai(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+    WriteConsoleW(hConsole, L"智", 1, &charsWritten, NULL);
+}
+
+void draw_airode(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, BACKGROUND_GREEN);
+    WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+}
+
+void draw_mouse_hole(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, BACKGROUND_RED);
+    WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
+}
+
+void draw_empty(HANDLE hConsole) {
+    DWORD charsWritten;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+    WriteConsoleW(hConsole, L"  ", 2, &charsWritten, NULL);
 }
