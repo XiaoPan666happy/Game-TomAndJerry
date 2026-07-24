@@ -27,4 +27,9 @@ constexpr wchar_t* TEXT4 = L"玩家回到了家里 游戏结束 玩家获胜";
 constexpr wchar_t* TEXT5 = L"猫抓住了玩家 游戏结束 玩家失败";
 constexpr wchar_t* TEXT6 = L"玩家拾取了智能寻路系统";
 constexpr wchar_t* TEXT7 = L"猫抓老鼠 v1.0.0";
-constexpr wchar_t* TEXT8 = L"开始游戏";
+constexpr wchar_t* TEXT8 = L"单人模式";
+constexpr wchar_t* TEXT9 = L"多人模式";
+constexpr wchar_t* TEXT10 = L"上下键选择 回车确认";
+
+constexpr short GAMEMODE_OFFLINE = 0;
+constexpr short GAMEMODE_ONLINE = 1;

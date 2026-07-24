@@ -1,7 +1,7 @@
 # coding=utf-8
 # file: OnlyRun.ps1
 
-$output_file = "bin\XPGame-TomAndJerry.exe"
+$output_file = "client\bin\XPGame-TomAndJerry.exe"
 
 
 Clear-Host

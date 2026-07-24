@@ -1,8 +1,8 @@
 # coding=utf-8
 # file: CompilerAndRun.ps1
 
-$source_file = "source\main.cpp"
-$output_file = "bin\XPGame-TomAndJerry.exe"
+$source_file = "client\source\main.cpp"
+$output_file = "client\bin\XPGame-TomAndJerry.exe"
 $compiler = "g++.exe"
 $flags = @("-Wall",
            "-g",
